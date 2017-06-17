@@ -1,0 +1,50 @@
+{
+  "name": "scratch-vm",
+  "version": "0.1.0",
+  "description": "Virtual Machine for Scratch 3.0",
+  "author": "Massachusetts Institute of Technology",
+  "license": "BSD-3-Clause",
+  "homepage": "https://github.com/LLK/scratch-vm#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/LLK/scratch-vm.git"
+  },
+  "main": "./dist/node/scratch-vm.js",
+  "scripts": {
+    "build": "./node_modules/.bin/webpack --progress --colors --bail",
+    "coverage": "./node_modules/.bin/tap ./test/{unit,integration}/*.js --coverage --coverage-report=lcov",
+    "deploy": "touch playground/.nojekyll && ./node_modules/.bin/gh-pages -t -d playground -m \"Build for $(git log --pretty=format:%H -n1)\"",
+    "lint": "./node_modules/.bin/eslint .",
+    "prepublish": "npm run build",
+    "prepublish-watch": "npm run watch",
+    "start": "./node_modules/.bin/webpack-dev-server",
+    "tap": "./node_modules/.bin/tap ./test/{unit,integration}/*.js",
+    "test": "npm run lint && npm run tap",
+    "watch": "./node_modules/.bin/webpack --progress --colors --watch",
+    "version": "./node_modules/.bin/json -f package.json -I -e \"this.repository.sha = '$(git log -n1 --pretty=format:%H)'\""
+  },
+  "devDependencies": {
+    "adm-zip": "0.4.7",
+    "babel-eslint": "7.1.1",
+    "copy-webpack-plugin": "4.0.1",
+    "eslint": "3.15.0",
+    "eslint-config-scratch": "^3.1.0",
+    "expose-loader": "0.7.1",
+    "gh-pages": "0.12.0",
+    "highlightjs": "9.8.0",
+    "htmlparser2": "3.9.2",
+    "json": "9.0.4",
+    "lodash.defaultsdeep": "4.6.0",
+    "minilog": "3.1.0",
+    "promise": "7.1.1",
+    "scratch-audio": "latest",
+    "scratch-blocks": "latest",
+    "scratch-render": "latest",
+    "script-loader": "0.7.0",
+    "stats.js": "0.17.0",
+    "tap": "10.1.0",
+    "travis-after-all": "1.4.4",
+    "webpack": "2.2.1",
+    "webpack-dev-server": "1.16.3"
+  }
+}

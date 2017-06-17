@@ -1,0 +1,199 @@
+{
+	"objName": "Stage",
+	"sounds": [{
+			"soundName": "pop",
+			"soundID": -1,
+			"md5": "2.wav",
+			"sampleCount": 258,
+			"rate": 11025,
+			"format": ""
+		}],
+	"costumes": [{
+			"costumeName": "learning-the-grid-method-1",
+			"baseLayerID": -1,
+			"baseLayerMD5": "6.png",
+			"bitmapResolution": 2,
+			"rotationCenterX": 480,
+			"rotationCenterY": 360
+		},
+		{
+			"costumeName": "level2",
+			"baseLayerID": -1,
+			"baseLayerMD5": "7.png",
+			"bitmapResolution": 2,
+			"rotationCenterX": 480,
+			"rotationCenterY": 360
+		},
+		{
+			"costumeName": "level3",
+			"baseLayerID": -1,
+			"baseLayerMD5": "8.png",
+			"bitmapResolution": 2,
+			"rotationCenterX": 480,
+			"rotationCenterY": 360
+		}],
+	"currentCostumeIndex": 0,
+	"penLayerMD5": "5c81a336fab8be57adc039a8a2b33ca9.png",
+	"penLayerID": -1,
+	"tempoBPM": 60,
+	"videoAlpha": 0.5,
+	"children": [{
+			"target": "Basketball",
+			"cmd": "getVar:",
+			"param": "ellipse",
+			"color": 15629590,
+			"label": "Basketball: ellipse",
+			"mode": 1,
+			"sliderMin": 0,
+			"sliderMax": 100,
+			"isDiscrete": true,
+			"x": 5,
+			"y": 5,
+			"visible": false
+		},
+		{
+			"objName": "Stop",
+			"scripts": [[118, 194, [["whenSceneStarts", "level3"], ["hide"]]]],
+			"costumes": [{
+					"costumeName": "stop",
+					"baseLayerID": -1,
+					"baseLayerMD5": "1.svg",
+					"bitmapResolution": 1,
+					"rotationCenterX": 26,
+					"rotationCenterY": 25
+				}],
+			"currentCostumeIndex": 0,
+			"scratchX": 202,
+			"scratchY": -143,
+			"scale": 1,
+			"direction": 90,
+			"rotationStyle": "normal",
+			"isDraggable": false,
+			"indexInLibrary": 1,
+			"visible": true,
+			"spriteInfo": {
+			}
+		},
+		{
+			"objName": "Dog2",
+			"scripts": [[135, 78, [["whenGreenFlag"], ["hide"]]],
+				[200, 136, [["whenSceneStarts", "level1"], ["hide"]]],
+				[118,
+					196,
+					[["whenSceneStarts", "level2"],
+						["show"],
+						["gotoX:y:", -195, 143],
+						["doForever",
+							[["doIf", ["keyPressed:", "up arrow"], [["heading:", 0], ["forward:", 10]]],
+								["doIf", ["touching:", "Stop"], [["startScene", "level3"]]]]]]],
+				[450,
+					128,
+					[["whenSceneStarts", "level3"],
+						["doForever", [["doIf", ["touchingColor:", -16777216], [["playSound:", "dog1"]]]]]]]],
+			"sounds": [{
+					"soundName": "dog1",
+					"soundID": -1,
+					"md5": "0.wav",
+					"sampleCount": 3672,
+					"rate": 22050,
+					"format": ""
+				}],
+			"costumes": [{
+					"costumeName": "dog2-a",
+					"baseLayerID": -1,
+					"baseLayerMD5": "2.svg",
+					"bitmapResolution": 1,
+					"rotationCenterX": 62,
+					"rotationCenterY": 43
+				},
+				{
+					"costumeName": "dog2-b",
+					"baseLayerID": -1,
+					"baseLayerMD5": "3.svg",
+					"bitmapResolution": 1,
+					"rotationCenterX": 75,
+					"rotationCenterY": 75
+				},
+				{
+					"costumeName": "dog2-c",
+					"baseLayerID": -1,
+					"baseLayerMD5": "4.svg",
+					"bitmapResolution": 1,
+					"rotationCenterX": 75,
+					"rotationCenterY": 75
+				}],
+			"currentCostumeIndex": 0,
+			"scratchX": 217,
+			"scratchY": -147,
+			"scale": 0.75,
+			"direction": 90,
+			"rotationStyle": "none",
+			"isDraggable": false,
+			"indexInLibrary": 3,
+			"visible": false,
+			"spriteInfo": {
+			}
+		},
+		{
+			"objName": "Basketball",
+			"variables": [{
+					"name": "ellipse",
+					"value": 0,
+					"isPersistent": false
+				}],
+			"scripts": [[391, 90, [["whenSceneStarts", "level2"], ["hide"], ["gotoX:y:", -195, 143]]],
+				[83,
+					171,
+					[["whenGreenFlag"],
+						["gotoX:y:", -195, 203],
+						["show"],
+						["heading:", 180],
+						["forward:", 10],
+						["doForever", [["doIf", ["touching:", "Stop"], [["startScene", "level2"]]]]]]]],
+			"sounds": [{
+					"soundName": "recording1",
+					"soundID": -1,
+					"md5": "1.wav",
+					"sampleCount": 1,
+					"rate": 22050,
+					"format": ""
+				},
+				{
+					"soundName": "dog1",
+					"soundID": -1,
+					"md5": "0.wav",
+					"sampleCount": 3672,
+					"rate": 22050,
+					"format": ""
+				}],
+			"costumes": [{
+					"costumeName": "basketball",
+					"baseLayerID": -1,
+					"baseLayerMD5": "5.svg",
+					"bitmapResolution": 1,
+					"rotationCenterX": 32,
+					"rotationCenterY": 33
+				}],
+			"currentCostumeIndex": 0,
+			"scratchX": -195,
+			"scratchY": 121,
+			"scale": 1,
+			"direction": 180,
+			"rotationStyle": "none",
+			"isDraggable": false,
+			"indexInLibrary": 2,
+			"visible": true,
+			"spriteInfo": {
+			}
+		}],
+	"info": {
+		"videoOn": false,
+		"projectID": "146242971",
+		"flashVersion": "WIN 24,0,0,221",
+		"hasCloudData": false,
+		"userAgent": "Mozilla\/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit\/537.36 (KHTML, like Gecko) Chrome\/56.0.2924.87 Safari\/537.36",
+		"scriptCount": 7,
+		"spriteCount": 3,
+		"swfVersion": "v454"
+	}
+}

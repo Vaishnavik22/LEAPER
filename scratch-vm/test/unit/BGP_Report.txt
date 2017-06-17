@@ -1,0 +1,106 @@
+-BGP v4 accomplishes these goals:
+
+	1. Needed to support meshlike connectivity of ISP networks.
+		Initially, ARPANET(backbone network), EGP(inter-domain network) were used. The broadcasted the entire network and had no loop prevention technique ---> Tiered networks.
+		BGP provides loop prevention through an attribute called AS path. -> Path-vector protocol.
+	2. Required extensive policy control to enforce the administrative policies of each ISP.
+		EX: If the goverment dictates that all traffic originating and terminating within this country must use networks of this country only.
+	3. Reliable transfer of routing info.
+		1.The size of the routing table and the need for high level availability requires routing protocol to guarantee its transmissions.
+		2. Accomplishes by using TCP as the underlying protocol. They rely on TCP for following service:
+			1. Acknowledgment
+			2. Segmentation
+			3. Checksums
+			4. Data sequencing
+			5. Flow Control.
+
+-Is BGP really a routing protocol?
+
+-Routing table scalability
+	When BGP peers establish a connection they exchange their routes and later on only exchange routes when there is a-y update in the routing table.
+
+-Theory of operation
+	Establishment of the relationship between routers and the actual advertisement of routes are controlled by various BGP packet types.
+	External BGP connnection - is established between two directly connected peers in different AS, this is enforced by setting TTL to 1.
+	Internal BGP session - has no req for physical connectivity, TTL - 64. IBGP peers rely on IGP knowledge within AS network. 
+	Advertising restriction - An IBGP learned route cannot be adveryised to another IBGP peer, BGP router examines the attribute when it recieves a packet from it's peers, if the local AS is listed in the attribute then the router drops the packets beacuse it has already beeen in the AS. IBGP requires full mesh to maintain route reachability.
+
+-Establishing Relationships
+	Uses finite state machine model when forming a peer relationship.
+		1. Idle -> Connect
+		2. Connect -> openSent | Active
+		3. Active -> openSent | connect
+		4. openSent -> recieves valid open message - openConfirm | Active
+		5. openConfirm -> sends keepAlive message
+		6. Established -> when keepAlive message is reached
+
+-Message types
+	1. open
+	2. update
+	3. notification
+	4. keepAlive
+
+	19-octet fixed size header- Marker(16), Length(2), Type(1)
+
+	-Open Message
+		Allows two peers to negotiate parameters - version, Local AS, Hold time, BGP Identifier, Optional parameter length, optional parameter.
+
+	-Update Message
+		Communicates the routing information.
+		BGP update header - Unfeasible routes length, Withdrawn routes, Total Path attribute length, Path attribute, Network layer reachability information.
+
+	-Notification Message
+		When BGP peer detectsan error within an session, it sends a notification message and closes both BGP and TCP sessions.
+		Header contains - Error code, Error Subcode and Data.
+
+	-Keepalive Message
+		These messages are exchanged at one-thired of the negotiated hold-time value for the session. It is sent only in the absence of the other messages for a particular session.
+		If in a hold period of time either update or keepalive is not recieved, a notification message of hold time is generated and session is torn down.
+
+-Routing information bases
+	Memory locations where the routers store their routing knowledge, it's of 3 types:
+		1. Adjacency-RIB-In 
+			- created on local router for each established BGP peer, all routes received are placed in appropriate table, a route that contains AS loop is discarded. on receiving update message the local router implemenents any applied routing policies, which includes, adding certain attributes etc.
+		2. Local-RIB
+			- The best path for each destination is stored, uses this route to forward user traffic and only single path to a destination is maintained.
+		3. Adjacency-RIB-Out
+			- Contains routes that has to be advertised to its peers, contains one table each for a peer, by default the table contains everything that is in local rib, changes can be made based on export policies.
+
+-Route selection process
+	
+-BGP attributes
+	- Path attributes are of 4 types:
+		1. well-known mandatory - should be understood by all bgp peers and must be included with all routes.
+		2. well-known discretionary - may or may not be included on a particular route.
+		3. optional transitive - routers do not have to understand but should be advertised.
+		4. optional nontransitive - routers do not have to understand and may or may not be advertised
+
+	-Next hop
+		-Attribute type code - 3, well-known mandatory.
+		- it supplied bgp router with the next hop IP to the route destination.
+			1. Setting the next hop attribute - in an IBGP peer session, BGP peer sends the loopback address as the next hop.
+			2. Using an IGP passive interface - the interface connecting to the EBGP peer is configured to operate in passive mode within the IGP
+			...
+
+	-Local preference
+		-Attribute type code - 5, well-known discretionary.
+		-it is used within an AS and not advertised to an EBGP peer.
+		-Administrators use this value to designate the exit point out of AS.
+		...
+
+	-AS Path
+		-Attribute type code - 2, well-known mandatory.
+		-contains a sequenced list of AS numbers.
+		-is modified when the route is advertised to an EBGP peer.
+
+	-Origin
+		-Attribute type code - 2, well-known mandatory.
+		-designates the source of the route into BGP.
+		-the first router to advertise the route assigns a value to the origin attribute to alert other routers as to the source of the route
+			1. IGP
+			2. BGP
+			3. Incomplete.
+
+	-Multiple exit discriminator
+		-Attribute type code - 4, optional nontransitive.
+
